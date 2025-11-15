@@ -77,6 +77,93 @@
     const refreshBtn = document.getElementById("refresh");
 
     let running = true;
+    let errorFlag = false;
+    let okCount = 0, errCount = 0;
+
+    // Always attempts a load (manual safe). Auto loop checks "running" separately.
+    function refresh() {
+      const ts = Date.now();
+      img.src = "img/latest.png?ts=" + ts;
+
+      img.onload = () => {
+        okCount++;
+        errorFlag = false;
+        status.innerHTML = `Status: <span class="ok">ok</span> — success: ${okCount}, errors: ${errCount}`;
+      };
+
+      img.onerror = () => {
+        errCount++;
+        errorFlag = true;
+        running = false;                // stop auto refresh on error
+        toggleBtn.textContent = "Resume";
+        status.innerHTML = `Status: <span class="error">error</span> — success: ${okCount}, errors: ${errCount}<br/>Message: latest.png missing or not updated. Auto refresh paused.`;
+      };
+    }
+
+    // Auto refresh every 250 ms only if running
+    setInterval(() => { if (running) refresh(); }, 250);
+
+    // Pause/Resume button
+    toggleBtn.addEventListener("click", () => {
+      running = !running;
+      toggleBtn.textContent = running ? "Pause" : "Resume";
+      status.textContent = running ? "Status: running…" : "Status: paused";
+      if (running) refresh();
+    });
+
+    // Manual refresh button (works even when paused or after error)
+    refreshBtn.addEventListener("click", () => {
+      refresh();
+      // Keep status line as-is; a successful load will clear the errorFlag and update the status.
+    });
+
+    // Initial load
+    refresh();
+  </script>
+</body>
+</html>      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+    .status { margin-top: 10px; font-size: 12px; color: #8b949e; }
+    .ok { color: #7bd88f; }
+    .error { color: #ff6b6b; }
+    .controls { margin-top: 12px; font-size: 12px; color: #8b949e; }
+    button {
+      margin: 0 4px;
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background: #1b1f24; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>KScreenMirror</h1>
+    <div class="meta">
+      Source: <code>img/latest.png</code> — Auto refresh: <strong>250 ms</strong>
+    </div>
+
+    <img id="mirror" src="img/latest.png" alt="Kindle screen" />
+
+    <div class="status" id="status">Status: waiting…</div>
+    <div class="controls">
+      <button id="toggle">Pause</button>
+      <button id="refresh">Refresh</button>
+    </div>
+  </div>
+
+  <script>
+    const img = document.getElementById("mirror");
+    const status = document.getElementById("status");
+    const toggleBtn = document.getElementById("toggle");
+    const refreshBtn = document.getElementById("refresh");
+
+    let running = true;
     let okCount = 0, errCount = 0;
 
     function refresh() {
