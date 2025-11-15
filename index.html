@@ -20,14 +20,12 @@
   <div class="status" id="status">Status: waiting…</div>
   <div>
     <button id="toggle">Pause</button>
-    <button id="refresh">Refresh</button>
   </div>
 
   <script>
     const img = document.getElementById("mirror");
     const status = document.getElementById("status");
     const toggleBtn = document.getElementById("toggle");
-    const refreshBtn = document.getElementById("refresh");
 
     let running = true;
     let okCount = 0, errCount = 0;
@@ -68,10 +66,6 @@
         status.textContent = "Status: running…";
         refresh();
       }
-    });
-
-    refreshBtn.addEventListener("click", () => {
-      refresh();
     });
 
     refresh(); // initial load
