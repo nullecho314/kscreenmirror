@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Kindle Screen Mirror</title>
+  <title>KScreenMirror</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      color-scheme: dark;
-    }
+    :root { color-scheme: dark; }
     body {
       margin: 0;
       background: #0f1115;
@@ -17,13 +15,10 @@
       place-items: center;
       min-height: 100vh;
     }
-    .wrap {
-      padding: 16px;
-      text-align: center;
-    }
+    .wrap { padding: 16px; text-align: center; }
     h1 {
       margin: 0 0 12px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 600;
       color: #e6edf3;
     }
@@ -33,7 +28,7 @@
       margin-bottom: 12px;
     }
     img {
-      width: 800px;       /* Kindle 4: 800x600 */
+      width: 800px;    /* Kindle 4: 800x600 */
       height: 600px;
       object-fit: contain;
       background: #111417;
@@ -42,23 +37,12 @@
       image-rendering: crisp-edges;
       image-rendering: pixelated;
     }
-    .status {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #8b949e;
-    }
-    .error {
-      color: #ff6b6b;
-    }
-    .ok {
-      color: #7bd88f;
-    }
-    .controls {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #8b949e;
-    }
+    .status { margin-top: 10px; font-size: 12px; color: #8b949e; }
+    .ok { color: #7bd88f; }
+    .error { color: #ff6b6b; }
+    .controls { margin-top: 12px; font-size: 12px; color: #8b949e; }
     button {
+      margin: 0 4px;
       padding: 6px 10px;
       font-size: 12px;
       background: #21262d;
@@ -66,6 +50,72 @@
       border: 1px solid #30363d;
       border-radius: 6px;
       cursor: pointer;
+    }
+    button:hover { background: #1b1f24; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>KScreenMirror</h1>
+    <div class="meta">
+      Source: <code>img/latest.png</code> — Auto refresh: <strong>250 ms</strong>
+    </div>
+
+    <img id="mirror" src="img/latest.png" alt="Kindle screen" />
+
+    <div class="status" id="status">Status: waiting…</div>
+    <div class="controls">
+      <button id="toggle">Pause</button>
+      <button id="refresh">Refresh</button>
+    </div>
+  </div>
+
+  <script>
+    const img = document.getElementById("mirror");
+    const status = document.getElementById("status");
+    const toggleBtn = document.getElementById("toggle");
+    const refreshBtn = document.getElementById("refresh");
+
+    let running = true;
+    let okCount = 0, errCount = 0;
+
+    function refresh() {
+      const ts = Date.now();
+      img.src = "img/latest.png?ts=" + ts;
+
+      img.onload = () => {
+        okCount++;
+        status.innerHTML = `Status: <span class="ok">ok</span> — success: ${okCount}, errors: ${errCount}`;
+      };
+
+      img.onerror = () => {
+        errCount++;
+        status.innerHTML = `Status: <span class="error">error</span> — success: ${okCount}, errors: ${errCount}<br/>Message: latest.png not found or not updated.`;
+      };
+    }
+
+    // Auto refresh every 250 ms
+    setInterval(() => { if (running) refresh(); }, 250);
+
+    // Pause/Resume button
+    toggleBtn.addEventListener("click", () => {
+      running = !running;
+      toggleBtn.textContent = running ? "Pause" : "Resume";
+      status.textContent = running ? "Status: running…" : "Status: paused";
+      if (running) refresh();
+    });
+
+    // Manual refresh button
+    refreshBtn.addEventListener("click", () => {
+      refresh();
+      status.textContent = "Status: manual refresh triggered.";
+    });
+
+    // Initial load
+    refresh();
+  </script>
+</body>
+</html>      cursor: pointer;
     }
     button:hover {
       background: #1b1f24;
