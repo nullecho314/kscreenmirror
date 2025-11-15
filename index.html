@@ -46,7 +46,7 @@
 
       img.onerror = () => {
         errCount++;
-        status.innerHTML = `Status: <span class="error">error</span> — success: ${okCount}, errors: ${errCount}<br/>Message: latest.png missing. Did you started the KScreenMirror on your Kindle? Or did you <a href="https://github.com/nullecho314/kscreenmirror" target="_blank">installed</a> KScreenMirror on your Kindle?`;
+        status.innerHTML = `Status: <span class="error">error</span> — success: ${okCount}, errors: ${errCount}<br/>Message: latest.png missing. Did you started the KScreenMirror on your Kindle? Or did you even <a href="https://github.com/nullecho314/kscreenmirror" target="_blank">installed</a> KScreenMirror on your Kindle?`;
         clearInterval(interval);   // stop auto refresh on error
         running = false;
         toggleBtn.textContent = "Resume";
