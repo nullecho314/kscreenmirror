@@ -3,6 +3,13 @@
 KScreenMirror is a simple Kindle → PC screen mirroring experiment.  
 It captures Kindle's e‑ink framebuffer as PNG images and serves them through a lightweight HTML page that refreshes automatically.
 
+## Screenshots
+
+<p align="center">
+  <img src="screenshots/web-interface.png" alt="Web Interface" width="400"/>
+  <img src="screenshots/kindle-capture.png" alt="Kindle Capture" width="400"/>
+</p>
+
 ## Features
 
 - Capture Kindle screen every **500 ms** using `fbgrab`, while the frontend refreshes every **250 ms**
