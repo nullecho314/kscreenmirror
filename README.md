@@ -25,7 +25,7 @@ It captures Kindle's e‑ink framebuffer as PNG images and serves them through a
 
 ## Installation
 
-Extract the (ksm.zip)[about:blank] file into the Kindle’s root directory.  
+Extract the [ksm.zip](about:blank) file into the Kindle’s root directory.  
 When you open KUAL, the KScreenMirror menu will be shown.
 
 ## Usage
