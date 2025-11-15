@@ -25,7 +25,8 @@ It captures Kindle's e‑ink framebuffer as PNG images and serves them through a
 
 ## Installation
 
-Copy all files from the repository to the Kindle’s root directory. When you open KUAL, the KScreenMirror menu will be shown.
+Extract the [about:blank](ksm.zip) file into the Kindle’s root directory.  
+When you open KUAL, the KScreenMirror menu will be shown.
 
 ## Usage
 
@@ -34,20 +35,3 @@ Copy all files from the repository to the Kindle’s root directory. When you op
 3. Plug Kindle into your computer.
 
 Your Kindle screen will appear on the PC.
-
-## Installation
-
-Extract the zip file into the Kindle’s root directory.  
-When you open KUAL, the KScreenMirror menu will be shown.
-
-### Directory Structure
-extensions/
-     └── kscreenmirror/
-         ├── bin/
-         │   ├── start.sh
-         │   ├── stop.sh
-         │   └── log.txt
-         ├── img/
-         │   ├── latest.png
-         │   └── ss1.png, ss2.png, ...
-         └── index.html
