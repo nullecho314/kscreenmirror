@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kindle Screen Mirror</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      margin: 0;
+      background: #0f1115;
+      color: #c9d1d9;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    .wrap {
+      padding: 16px;
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #e6edf3;
+    }
+    .meta {
+      font-size: 12px;
+      color: #8b949e;
+      margin-bottom: 12px;
+    }
+    img {
+      width: 800px;       /* Kindle 4: 800x600 */
+      height: 600px;
+      object-fit: contain;
+      background: #111417;
+      border: 1px solid #30363d;
+      box-shadow: 0 0 0 3px #0f1115, 0 8px 30px rgba(0,0,0,0.35);
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #8b949e;
+    }
+    .error {
+      color: #ff6b6b;
+    }
+    .ok {
+      color: #7bd88f;
+    }
+    .controls {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #8b949e;
+    }
+    button {
+      padding: 6px 10px;
+      font-size: 12px;
+      background: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1b1f24;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Kindle Screen Mirror</h1>
+    <div class="meta">
+      Source: <code>img/latest.png</code> — Refresh Rate: <strong>250 ms</strong>
+    </div>
+
+    <img id="mirror" src="img/latest.png" alt="Kindle screen" />
+
+    <div class="status" id="status">Status: <span class="error">waiting…</span></div>
+    <div class="controls">
+      <button id="toggle">Stop</button>
+    </div>
+  </div>
+
+  <script>
+    const img = document.getElementById("mirror");
+    const status = document.getElementById("status");
+    const toggleBtn = document.getElementById("toggle");
+
+    let running = true;
+    let okCount = 0, errCount = 0;
+
+    function refresh() {
+      if (!running) return;
+      const ts = Date.now();
+      img.src = "img/latest.png?ts=" + ts;
+
+      // Başarılı yükleme
+      img.onload = () => {
+        okCount++;
+        status.innerHTML = `Status: <span class="ok">ok</span> — successful: ${okCount}, error: ${errCount}`;
+      };
+
+      // Hata olursa (dosya henüz yoksa vs.)
+      img.onerror = () => {
+        errCount++;
+        status.innerHTML = `Status: <span class="error">error</span> — successful: ${okCount}, error: ${errCount}`;
+      };
+    }
+
+    // 250 ms’de bir yenile
+    const interval = setInterval(refresh, 250);
+
+    // Başlat/Durdur
+    toggleBtn.addEventListener("click", () => {
+      running = !running;
+      toggleBtn.textContent = running ? "Stop" : "Start";
+      status.textContent = running ? "Status: running…" : "Status: stopped";
+      if (running) refresh();
+    });
+
+    // İlk yüklemede tetikle
+    refresh();
+  </script>
+</body>
+</html>
