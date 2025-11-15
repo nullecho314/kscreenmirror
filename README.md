@@ -5,13 +5,25 @@ It captures Kindle's e‑ink framebuffer as PNG images and serves them through a
 
 ## Features
 
-- Capture Kindle screen every **500 ms** using `fbgrab`, frontend refreshes every **250 ms**
+- Capture Kindle screen every **500 ms** using `fbgrab`, while the frontend refreshes every **250 ms**
 - Safe USBNet handling:
   - Warns if USBNet is not active
   - Stops USBNet automatically when capture ends
 
 ## Requirements
 
-- Jailbroken Kindle with KUAL and USBNet installed. (tested on Kindle 4 NT)
+- Jailbroken Kindle with KUAL and USBNet installed (tested on Kindle 4 NT)
 - `fbgrab` tool available on Kindle
 - A computer for viewing
+
+## Installation
+
+Copy all files from the repository to the Kindle’s root directory. When you open KUAL, the KScreenMirror menu will be shown.
+
+## Usage
+
+1. Open https://nullecho314.github.io/kscreenmirror/ on your computer.
+2. Open KUAL and start KScreenMirror (KUAL → KScreenMirror → Start).
+3. Plug Kindle into your computer.
+
+Your Kindle screen will appear on the PC.
